@@ -77,4 +77,8 @@ if (fs.existsSync(sourceNetlify)) {
   console.log('Copied netlify.toml file');
 }
 
+// Create CNAME file for custom domain if needed
+// Uncomment and modify if you have a custom domain
+// fs.writeFileSync(path.join(__dirname, 'dist', 'CNAME'), 'your-custom-domain.com');
+
 console.log('Post-build script completed successfully!'); 

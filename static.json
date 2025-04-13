@@ -1,0 +1,24 @@
+{
+  "root": "dist/",
+  "clean_urls": true,
+  "routes": {
+    "/**": "index.html"
+  },
+  "https_only": true,
+  "headers": {
+    "/**": {
+      "X-Frame-Options": "DENY",
+      "X-XSS-Protection": "1; mode=block",
+      "X-Content-Type-Options": "nosniff"
+    },
+    "/assets/*.js": {
+      "Content-Type": "application/javascript"
+    },
+    "/assets/*.css": {
+      "Content-Type": "text/css"
+    },
+    "/assets/*.svg": {
+      "Content-Type": "image/svg+xml"
+    }
+  }
+} 

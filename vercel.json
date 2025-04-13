@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "^/assets/(.*)\\.js$",
+      "headers": { "Content-Type": "application/javascript" }
+    },
+    {
+      "src": "^/assets/(.*)\\.css$",
+      "headers": { "Content-Type": "text/css" }
+    },
+    {
+      "src": "^/assets/(.*)\\.png$",
+      "headers": { "Content-Type": "image/png" }
+    },
+    {
+      "src": "^/assets/(.*)\\.svg$",
+      "headers": { "Content-Type": "image/svg+xml" }
+    },
+    {
+      "src": "^/assets/(.*)\\.jpg$",
+      "headers": { "Content-Type": "image/jpeg" }
+    },
+    {
+      "src": "^/assets/(.*)\\.jpeg$",
+      "headers": { "Content-Type": "image/jpeg" }
+    },
+    { "handle": "filesystem" },
+    { "src": ".*", "dest": "/index.html" }
+  ]
+} 
