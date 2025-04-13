@@ -10,6 +10,12 @@ declare global {
   }
 }
 
+// Helper function to get the correct asset path
+const getAssetPath = (path: string): string => {
+  // Use import.meta.env.BASE_URL to handle both development and production paths
+  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`;
+};
+
 type Player = 'X' | 'O' | null;
 type BoardState = Player[];
 type GameHistory = { x: number; o: number; ties: number };

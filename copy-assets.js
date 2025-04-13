@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 
 // Create .nojekyll file to prevent Jekyll processing on GitHub Pages
 fs.writeFileSync(path.join(__dirname, 'dist', '.nojekyll'), '');
+console.log('Created .nojekyll file');
 
 // Copy all files from public to dist
 const publicDir = path.join(__dirname, 'public');
@@ -45,13 +46,20 @@ if (fs.existsSync(publicDir)) {
   copyDir(publicDir, distDir);
 }
 
-// Create 404.html from index.html
+// Create 404.html from index.html if it doesn't exist
 const indexHtml = path.join(__dirname, 'dist', 'index.html');
 const notFoundHtml = path.join(__dirname, 'dist', '404.html');
 
-if (fs.existsSync(indexHtml)) {
+if (fs.existsSync(indexHtml) && !fs.existsSync(notFoundHtml)) {
   fs.copyFileSync(indexHtml, notFoundHtml);
   console.log('Created 404.html from index.html');
+}
+
+// Make sure _redirects file is copied
+const redirectsFile = path.join(__dirname, 'dist', '_redirects');
+if (!fs.existsSync(redirectsFile)) {
+  fs.writeFileSync(redirectsFile, '/* /index.html 200');
+  console.log('Created _redirects file');
 }
 
 // Make sure .htaccess and _headers files are copied
