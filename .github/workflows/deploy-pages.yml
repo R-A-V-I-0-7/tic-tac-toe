@@ -18,25 +18,58 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          node-version: '18'
-
+          persist-credentials: true
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      
       - name: Install dependencies
         run: npm install
-
+      
       - name: Build
         run: npm run build
-        
+      
+      - name: Debug directory structure
+        run: |
+          echo "Contents of the workspace:"
+          ls -la
+          echo "Contents of the dist directory:"
+          ls -la dist || echo "Dist directory not found"
+      
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist
-          branch: gh-pages 
+        run: |
+          echo "Configuring git..."
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          echo "Creating and switching to gh-pages branch..."
+          git checkout --orphan gh-pages || (echo "Failed to create gh-pages branch" && exit 1)
+          
+          echo "Removing existing files..."
+          git rm -rf . || echo "No files to remove"
+          
+          echo "Copying built files to root..."
+          cp -r dist/* . || (echo "Failed to copy files from dist directory" && exit 1)
+          
+          echo "Creating .nojekyll file..."
+          touch .nojekyll
+          
+          echo "Staging changes..."
+          git add -A || (echo "Failed to stage files" && exit 1)
+          
+          echo "Committing changes..."
+          git commit -m "Deploy to GitHub Pages" || (echo "Nothing to commit" && exit 0)
+          
+          echo "Pushing to gh-pages branch..."
+          git push -f origin gh-pages || (echo "Failed to push to gh-pages branch" && exit 1)
+          
+          echo "Deployment complete!" 
