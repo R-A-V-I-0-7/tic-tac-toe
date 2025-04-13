@@ -9,8 +9,6 @@ on:
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
@@ -18,16 +16,13 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
-        with:
-          persist-credentials: true
       
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -36,54 +31,14 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: Fix vite crypto issue
-        run: npm install --save-dev crypto-browserify stream-browserify assert browserify-zlib
-        
       - name: Build
-        run: |
-          export NODE_OPTIONS=--no-experimental-fetch
-          npm run build
+        run: npm run build
         env:
-          CI: false
+          NODE_OPTIONS: --no-experimental-fetch
       
-      - name: Debug directory structure
+      - name: Deploy with gh-pages
         run: |
-          echo "Contents of the workspace:"
-          ls -la
-          echo "Contents of the dist directory:"
-          ls -la dist || echo "Dist directory not found"
-      
-      - name: Deploy to GitHub Pages
-        run: |
-          echo "Configuring git..."
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          echo "Creating and switching to gh-pages branch..."
-          git checkout --orphan gh-pages || (echo "Failed to create gh-pages branch" && exit 1)
-          
-          echo "Removing existing files..."
-          git rm -rf . || echo "No files to remove"
-          
-          echo "Copying built files to root..."
-          cp -r dist/* . || (echo "Failed to copy files from dist directory" && exit 1)
-          
-          echo "Ensuring logo file exists..."
-          cp -f dist/tic-tac-toe-logo.svg . || echo "Warning: Could not copy logo file"
-          
-          echo "Creating .nojekyll file..."
-          touch .nojekyll
-          
-          echo "Removing any existing CNAME file..."
-          rm -f CNAME
-          
-          echo "Staging changes..."
-          git add -A || (echo "Failed to stage files" && exit 1)
-          
-          echo "Committing changes..."
-          git commit -m "Deploy to GitHub Pages" || (echo "Nothing to commit" && exit 0)
-          
-          echo "Pushing to gh-pages branch..."
-          git push -f origin gh-pages || (echo "Failed to push to gh-pages branch" && exit 1)
-          
-          echo "Deployment complete!" 
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          npx gh-pages -d dist -u "github-actions-bot <support+actions@github.com>"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
