@@ -68,6 +68,9 @@ jobs:
           echo "Copying built files to root..."
           cp -r dist/* . || (echo "Failed to copy files from dist directory" && exit 1)
           
+          echo "Ensuring logo file exists..."
+          cp -f dist/tic-tac-toe-logo.svg . || echo "Warning: Could not copy logo file"
+          
           echo "Creating .nojekyll file..."
           touch .nojekyll
           

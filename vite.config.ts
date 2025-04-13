@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [react()],
   base: '/tic-tac-toe/',
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    sourcemap: false,
     commonjsOptions: {
       transformMixedEsModules: true,
     },
