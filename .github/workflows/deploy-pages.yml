@@ -8,9 +8,10 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+  actions: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
@@ -24,6 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
+      - name: Enable GitHub Pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+      
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -35,9 +41,6 @@ jobs:
       
       - name: Build
         run: npm run build
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
