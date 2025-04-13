@@ -11,12 +11,38 @@ const __dirname = path.dirname(__filename);
 // Create .nojekyll file to prevent Jekyll processing on GitHub Pages
 fs.writeFileSync(path.join(__dirname, 'dist', '.nojekyll'), '');
 
-// Copy logo to dist root if it exists
-const logoSource = path.join(__dirname, 'public', 'tic-tac-toe-logo.svg');
-const logoTarget = path.join(__dirname, 'dist', 'tic-tac-toe-logo.svg');
+// Copy all files from public to dist
+const publicDir = path.join(__dirname, 'public');
+const distDir = path.join(__dirname, 'dist');
 
-if (fs.existsSync(logoSource)) {
-  fs.copyFileSync(logoSource, logoTarget);
+if (fs.existsSync(publicDir)) {
+  // Create a function to copy files recursively
+  const copyDir = (src, dest) => {
+    // Create destination directory if it doesn't exist
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true });
+    }
+
+    // Read the contents of the source directory
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, entry.name);
+
+      if (entry.isDirectory()) {
+        // Recursively copy directories
+        copyDir(srcPath, destPath);
+      } else {
+        // Copy files
+        fs.copyFileSync(srcPath, destPath);
+        console.log(`Copied: ${srcPath} -> ${destPath}`);
+      }
+    }
+  };
+
+  // Copy all files from public to dist
+  copyDir(publicDir, distDir);
 }
 
 // Create 404.html from index.html
@@ -25,4 +51,7 @@ const notFoundHtml = path.join(__dirname, 'dist', '404.html');
 
 if (fs.existsSync(indexHtml)) {
   fs.copyFileSync(indexHtml, notFoundHtml);
-} 
+  console.log('Created 404.html from index.html');
+}
+
+console.log('Post-build script completed successfully!'); 
