@@ -2,7 +2,7 @@
 
 A modern, responsive Tic Tac Toe game built with React and TypeScript, featuring multiple game modes, themes, and animations.
 
-![Tic Tac Toe Game Screenshot](https://github.com/r-a-v-i-0-7/tic-tac-toe/raw/gh-pages/assets/screenshot.png)
+![Tic Tac Toe Game Screenshot](https://github.com/r-a-v-i-0-7/tic-tac-toe/raw/master/assets/screenshot.png)
 
 🎮 **Play the game here:** [https://r-a-v-i-0-7.github.io/tic-tac-toe/](https://r-a-v-i-0-7.github.io/tic-tac-toe/)
 
