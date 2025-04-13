@@ -54,4 +54,27 @@ if (fs.existsSync(indexHtml)) {
   console.log('Created 404.html from index.html');
 }
 
+// Make sure .htaccess and _headers files are copied
+const sourceHtaccess = path.join(__dirname, 'public', '.htaccess');
+const destHtaccess = path.join(__dirname, 'dist', '.htaccess');
+if (fs.existsSync(sourceHtaccess)) {
+  fs.copyFileSync(sourceHtaccess, destHtaccess);
+  console.log('Copied .htaccess file');
+}
+
+const sourceHeaders = path.join(__dirname, 'public', '_headers');
+const destHeaders = path.join(__dirname, 'dist', '_headers');
+if (fs.existsSync(sourceHeaders)) {
+  fs.copyFileSync(sourceHeaders, destHeaders);
+  console.log('Copied _headers file');
+}
+
+// Copy netlify.toml if it exists
+const sourceNetlify = path.join(__dirname, 'netlify.toml');
+const destNetlify = path.join(__dirname, 'dist', 'netlify.toml');
+if (fs.existsSync(sourceNetlify)) {
+  fs.copyFileSync(sourceNetlify, destNetlify);
+  console.log('Copied netlify.toml file');
+}
+
 console.log('Post-build script completed successfully!'); 
