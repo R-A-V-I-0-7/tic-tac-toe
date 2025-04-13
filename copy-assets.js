@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
 // Simple post-build script to copy assets
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create .nojekyll file to prevent Jekyll processing on GitHub Pages
 fs.writeFileSync(path.join(__dirname, 'dist', '.nojekyll'), '');

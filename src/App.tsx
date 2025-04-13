@@ -359,24 +359,26 @@ function App() {
     </div>
   );
 
-  const renderHomeConfirmation = () => (
-    <div className={`home-confirmation ${showHomeConfirmation ? 'open' : ''}`}>
-      <div className="home-confirmation-content">
-        <h2 className="home-confirmation-title">Return to Home?</h2>
-        <p className="home-confirmation-text">
-          Your current game progress will be lost. Are you sure you want to return to the home screen?
-        </p>
-        <div className="home-confirmation-buttons">
-          <button className="home-confirmation-button confirm-yes" onClick={confirmGoToHome}>
-            Yes, Go Home
-          </button>
-          <button className="home-confirmation-button confirm-no" onClick={cancelGoToHome}>
-            No, Continue
-          </button>
+  const renderHomeConfirmation = () => {
+    if (!showHomeConfirmation) return null;
+    
+    return (
+      <div className="popup-overlay">
+        <div className="home-confirmation">
+          <h3>Return to Home?</h3>
+          <p>Your current game progress will be lost.</p>
+          <div className="confirmation-buttons">
+            <button onClick={confirmGoToHome} className="confirm-button">
+              <span>Yes, Go Home</span>
+            </button>
+            <button onClick={cancelGoToHome} className="cancel-button">
+              <span>No, Continue</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderFeaturesPopup = () => (
     <div className={`features-popup ${showFeaturesPopup ? 'open' : ''}`}>
@@ -625,6 +627,7 @@ function App() {
           </button>
         </>
       )}
+      {renderHomeConfirmation()}
     </div>
   );
 }
