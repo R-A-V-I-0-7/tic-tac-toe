@@ -25,20 +25,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: '16'
       
       - name: Install dependencies
-        run: npm install
+        run: npm ci || npm install
       
       - name: Build
         run: npm run build
-        env:
-          NODE_OPTIONS: --no-experimental-fetch
       
-      - name: Deploy with gh-pages
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npx gh-pages -d dist -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist 

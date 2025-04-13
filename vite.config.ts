@@ -28,6 +28,17 @@ const ghPagesPlugin = () => {
       } catch (err) {
         console.error('❌ Error creating .nojekyll file:', err)
       }
+
+      // Create copy of index.html to handle 404s
+      try {
+        fs.copyFileSync(
+          resolve('./dist/index.html'),
+          resolve('./dist/404.html')
+        )
+        console.log('✅ Created 404.html file')
+      } catch (err) {
+        console.error('❌ Error creating 404.html file:', err)
+      }
     }
   }
 }
@@ -38,7 +49,7 @@ export default defineConfig({
     react(),
     ghPagesPlugin()
   ],
-  base: '/tic-tac-toe/',
+  base: './',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -46,6 +57,9 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       output: {
+        entryFileNames: 'index.js',
+        chunkFileNames: '[name].js',
+        assetFileNames: '[name].[ext]',
         manualChunks: undefined,
       },
     },
