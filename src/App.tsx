@@ -152,7 +152,7 @@ function App() {
       .filter(index => index !== null) as number[];
     
     if (availableMoves.length === 0) return -1;
-    
+
     // If there's a winning move, take it
     for (const move of availableMoves) {
       const boardCopy = [...board];
@@ -535,6 +535,52 @@ function App() {
     );
   };
 
+  const renderGameControls = () => {
+    return (
+      <div className="game-controls">
+        <button onClick={() => setGameMenuOpen(true)} className="control-button">
+          <span>Settings</span>
+        </button>
+        <button onClick={resetGame} className="control-button">
+          <span>New Game</span>
+        </button>
+        <button 
+          onClick={undoLastMove} 
+          className="control-button"
+          disabled={moveHistory.length === 0 || winner !== null || isDraw}
+        >
+          <span>Undo</span>
+        </button>
+        <button onClick={goToHome} className="control-button">
+          <span>Home</span>
+        </button>
+      </div>
+    );
+  };
+
+  const renderGameStatus = () => {
+    if (!isGameStarted) {
+      return <div className="start-prompt">Choose settings and start a game</div>;
+    } else if (winner) {
+      return (
+        <div className="winner-message">
+          {gameMode !== 'pvp' && winner === 'X' ? 'You win!' : gameMode !== 'pvp' && winner === 'O' ? 'Computer wins!' : 
+          `Player ${winner} wins!`}
+        </div>
+      );
+    } else if (isDraw) {
+      return <div className="draw-message">It's a draw!</div>;
+    } else {
+      return (
+        <div className="current-player">
+          {gameMode !== 'pvp' && currentPlayer === 'X' ? 'Your turn' : 
+          gameMode !== 'pvp' && currentPlayer === 'O' ? 'Computer is thinking...' : 
+          `Player ${currentPlayer}'s turn`}
+        </div>
+      );
+    }
+  };
+
   return (
     <div className={`game-container theme-${theme}`}>
       {currentScreen === 'welcome' && renderWelcomeScreen()}
@@ -545,50 +591,14 @@ function App() {
         <>
           {renderConfetti()}
           {renderGameMenu()}
-          {renderHomeConfirmation()}
+          {renderGameControls()}
           
           <h1 className="game-title">Tic Tac Toe</h1>
           
-          <div className="game-status">
-            {!isGameStarted ? (
-              <div className="start-prompt">Choose settings and start a game</div>
-            ) : winner ? (
-              <div className="winner-message">
-                {gameMode !== 'pvp' && winner === 'X' ? 'You win!' : gameMode !== 'pvp' && winner === 'O' ? 'Computer wins!' : 
-                `Player ${winner} wins!`}
-              </div>
-            ) : isDraw ? (
-              <div className="draw-message">It's a draw!</div>
-            ) : (
-              <div className="current-player">
-                {gameMode !== 'pvp' && currentPlayer === 'X' ? 'Your turn' : 
-                gameMode !== 'pvp' && currentPlayer === 'O' ? 'Computer is thinking...' : 
-                `Player ${currentPlayer}'s turn`}
-              </div>
-            )}
-          </div>
-
+          <div className="game-status">{renderGameStatus()}</div>
+          
           <div className="game-board">
             {Array(9).fill(null).map((_, index) => renderCell(index))}
-          </div>
-
-          <div className="game-controls">
-            <button className="control-button settings-button" onClick={() => setGameMenuOpen(true)}>
-              Settings
-            </button>
-            <button className="control-button reset-button" onClick={resetGame}>
-              New Game
-            </button>
-            <button 
-              className="control-button undo-button" 
-              onClick={undoLastMove}
-              disabled={moveHistory.length === 0 || winner !== null || isDraw}
-            >
-              Undo
-            </button>
-            <button className="control-button home-button" onClick={goToHome}>
-              Home
-            </button>
           </div>
 
           <div className="game-history">
@@ -612,10 +622,6 @@ function App() {
 
           <button className="rules-button" onClick={toggleRulesPopup}>
             ?
-          </button>
-          
-          <button className="home-button-fixed" onClick={goToHome}>
-            🏠
           </button>
         </>
       )}

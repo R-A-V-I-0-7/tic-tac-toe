@@ -763,7 +763,7 @@ body {
 }
 
 /* Home confirmation modal */
-.home-confirmation {
+.popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -775,18 +775,10 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 110;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.home-confirmation.open {
-  opacity: 1;
-  pointer-events: all;
   animation: fadeIn 0.3s ease-out;
 }
 
-.home-confirmation-content {
+.home-confirmation {
   background: var(--board-bg-color);
   color: var(--text-color);
   border-radius: 16px;
@@ -800,7 +792,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.home-confirmation-title {
+.home-confirmation h3 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
   color: var(--primary-color);
@@ -808,19 +800,19 @@ body {
   font-weight: 700;
 }
 
-.home-confirmation-text {
+.home-confirmation p {
   font-size: 1.1rem;
   margin-bottom: 2rem;
   line-height: 1.5;
 }
 
-.home-confirmation-buttons {
+.confirmation-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
 
-.home-confirmation-button {
+.confirm-button, .cancel-button {
   padding: 0.8rem 1.5rem;
   border-radius: 30px;
   border: none;
@@ -832,18 +824,18 @@ body {
   letter-spacing: 1px;
 }
 
-.confirm-yes {
+.confirm-button {
   background: var(--secondary-color);
   color: white;
 }
 
-.confirm-no {
+.cancel-button {
   background: var(--board-bg-color);
   color: var(--text-color);
   border: 2px solid var(--neutral-color);
 }
 
-.home-confirmation-button:hover {
+.confirm-button:hover, .cancel-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
