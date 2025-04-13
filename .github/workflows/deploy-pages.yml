@@ -71,6 +71,9 @@ jobs:
           echo "Creating .nojekyll file..."
           touch .nojekyll
           
+          echo "Removing any existing CNAME file..."
+          rm -f CNAME
+          
           echo "Staging changes..."
           git add -A || (echo "Failed to stage files" && exit 1)
           
