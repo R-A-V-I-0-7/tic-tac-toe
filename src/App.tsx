@@ -210,10 +210,8 @@ function App() {
         updateGameHistory(board[a]);
         
         // Trigger confetti for winner
-        if (board[a] === 'X') {
-          setConfettiActive(true);
-          setTimeout(() => setConfettiActive(false), 3000);
-        }
+        setConfettiActive(true);
+        setTimeout(() => setConfettiActive(false), 5000);
         
         return;
       }
@@ -526,16 +524,23 @@ function App() {
   const renderConfetti = () => {
     if (!confettiActive) return null;
     
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8800', '#8800ff'];
+    
     return (
       <div className="confetti-container">
-        {Array(50).fill(null).map((_, i) => (
+        {Array(100).fill(null).map((_, i) => (
           <div 
             key={i} 
             className="confetti" 
             style={{
               left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 30 - 50}%`,
+              width: `${Math.random() * 10 + 5}px`,
+              height: `${Math.random() * 10 + 5}px`,
+              backgroundColor: colors[Math.floor(Math.random() * colors.length)],
               animationDelay: `${Math.random() * 3}s`,
-              backgroundColor: `hsl(${Math.random() * 360}, 80%, 60%)`
+              animationDuration: `${Math.random() * 4 + 3}s`,
+              transform: `rotate(${Math.random() * 360}deg)`
             }}
           />
         ))}
@@ -558,9 +563,6 @@ function App() {
           disabled={moveHistory.length === 0 || winner !== null || isDraw}
         >
           <span>Undo</span>
-        </button>
-        <button onClick={goToHome} className="control-button">
-          <span>Home</span>
         </button>
       </div>
     );
@@ -605,31 +607,46 @@ function App() {
           
           <div className="game-status">{renderGameStatus()}</div>
           
-          <div className="game-board">
-            {Array(9).fill(null).map((_, index) => renderCell(index))}
-          </div>
-
           <div className="game-history">
             <div className="history-item x-wins">
               <span className="player-label player-x">
                 {gameMode !== 'pvp' ? 'You' : 'X'}
               </span>
+              <div className="score-bar">
+                <div className="score-fill" style={{ width: `${(gameHistory.x / Math.max(gameHistory.x + gameHistory.o + gameHistory.ties, 1)) * 100}%` }}></div>
+                <span className="history-label">Wins</span>
+              </div>
               <span className="score">{gameHistory.x}</span>
-            </div>
-            <div className="history-item ties">
-              <span className="player-label">Ties</span>
-              <span className="score">{gameHistory.ties}</span>
             </div>
             <div className="history-item o-wins">
               <span className="player-label player-o">
                 {gameMode !== 'pvp' ? 'CPU' : 'O'}
               </span>
+              <div className="score-bar">
+                <div className="score-fill" style={{ width: `${(gameHistory.o / Math.max(gameHistory.x + gameHistory.o + gameHistory.ties, 1)) * 100}%` }}></div>
+                <span className="history-label">Wins</span>
+              </div>
               <span className="score">{gameHistory.o}</span>
             </div>
+            <div className="history-item ties">
+              <span className="player-label">Ties</span>
+              <div className="score-bar">
+                <div className="score-fill" style={{ width: `${(gameHistory.ties / Math.max(gameHistory.x + gameHistory.o + gameHistory.ties, 1)) * 100}%` }}></div>
+                <span className="history-label">Games</span>
+              </div>
+              <span className="score">{gameHistory.ties}</span>
+            </div>
+          </div>
+          
+          <div className="game-board">
+            {Array(9).fill(null).map((_, index) => renderCell(index))}
           </div>
 
           <button className="rules-button" onClick={toggleRulesPopup}>
             ?
+          </button>
+          <button className="home-button-fixed" onClick={goToHome}>
+            🏠
           </button>
         </>
       )}
