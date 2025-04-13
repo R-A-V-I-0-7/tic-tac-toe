@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Tic Tac Toe Logo</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <!-- Grid Lines -->
+            <path d="M1,156 L511,156" stroke="#000000" stroke-width="12" />
+            <path d="M1,336 L511,336" stroke="#000000" stroke-width="12" />
+            <path d="M156,1 L156,511" stroke="#000000" stroke-width="12" />
+            <path d="M336,1 L336,511" stroke="#000000" stroke-width="12" />
+            
+            <!-- X in top-middle -->
+            <path d="M246,66 L246,66 L286,106 L246,146 L206,106 Z" fill="#00C2FF" />
+            <path d="M246,66 L286,106 L246,146 L206,106 L246,66 Z" stroke="#000000" stroke-width="10" />
+            
+            <!-- X in middle-left -->
+            <path d="M76,246 L76,246 L116,286 L76,326 L36,286 Z" fill="#00C2FF" />
+            <path d="M76,246 L116,286 L76,326 L36,286 L76,246 Z" stroke="#000000" stroke-width="10" />
+            
+            <!-- X in bottom-middle -->
+            <path d="M246,386 L246,386 L286,426 L246,466 L206,426 Z" fill="#00C2FF" />
+            <path d="M246,386 L286,426 L246,466 L206,426 L246,386 Z" stroke="#000000" stroke-width="10" />
+            
+            <!-- X in middle-right -->
+            <path d="M426,246 L426,246 L466,286 L426,326 L386,286 Z" fill="#00C2FF" />
+            <path d="M426,246 L466,286 L426,326 L386,286 L426,246 Z" stroke="#000000" stroke-width="10" />
+
+            <!-- O in top-left -->
+            <circle cx="76" cy="76" r="45" fill="#FF4D6A" />
+            <circle cx="76" cy="76" r="45" stroke="#000000" stroke-width="10" />
+            <circle cx="76" cy="76" r="20" fill="white" />
+            
+            <!-- O in middle-middle -->
+            <circle cx="246" cy="246" r="45" fill="#FF4D6A" />
+            <circle cx="246" cy="246" r="45" stroke="#000000" stroke-width="10" />
+            <circle cx="246" cy="246" r="20" fill="white" />
+            
+            <!-- O in bottom-right -->
+            <circle cx="426" cy="426" r="45" fill="#FF4D6A" />
+            <circle cx="426" cy="426" r="45" stroke="#000000" stroke-width="10" />
+            <circle cx="426" cy="426" r="20" fill="white" />
+        </g>
+    </g>
+</svg> 
